@@ -53,9 +53,11 @@
                 // Render the current organizations (or any error)
                 .then(
                     function(orgs) {
+                        console.log(client.getAllResponseHeaders());
                         document.getElementById("orgs").innerText = JSON.stringify(orgs, null, 4);
                     },
                     function(error) {
+                        alert("Issue Fetching Organization");
                         document.getElementById("orgs").innerText = error.stack;
                     }
                 );
@@ -75,9 +77,11 @@
                     // Render the current location (or any error)
                     .then(
                         function(location) {
+                            console.log(client.getAllResponseHeaders());
                             document.getElementById("location").innerText = JSON.stringify(location, null, 4);
                         },
                         function(error) {
+                            alert("Issue Fetching Organization");
                             document.getElementById("location").innerText = error.stack;
                         }
                     );
