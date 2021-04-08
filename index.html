@@ -37,7 +37,7 @@
                 );
 
                 // Get organizations for the selected patient
-               client.request("/Patient/" + client.patient.id, {
+               client.request("/Patient?_id=" + client.patient.id, {
                 })
 
                 // Reject if no organizations are found
@@ -60,8 +60,6 @@
 
                 // Get DocumentReferences for the selected patient
                 client.request("/DocumentReference?patient=" + client.patient.id, { // client.patient.id,
-                    resolveReferences: [ "medicationReference" ],
-                    graph: true
                 })
 
                 // Reject if no documentReference are found
