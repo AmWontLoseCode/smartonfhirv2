@@ -16,7 +16,9 @@
         </style>
     </head>
     <body>
-        <h4>Current Patient</h4>
+    <img src="images/strata-logo-150ppi.png">
+    <h2>Strata Health Smart on FHIR APP V1.</h2>
+    <h4>Current Patient</h4>
         <div id="patient">Loading...</div>
         <br/>
         <h4>Organizations</h4>
@@ -25,6 +27,28 @@
         <div id="location">Loading...</div>
         <h4>Practitioners</h4>
         <div id="practitioner">Loading...</div>
+    <table>
+        <tr>
+            <th>OPTION 1: Automatic user login (SSO) <!--in Pathways from the external Cerner HIS.--></th>
+            <th>
+                <button type="submit">Continue</button>
+            </th>
+        </tr>
+        <tr>
+            <th>OPTION 2: Demographic information is automatically copied to Pathways.</th>
+            <th>
+                <button type="submit">Continue</button>
+            </th>
+        </tr>
+        <tr>
+            <th>OPTION 3: Complete referral data is automatically copied to <!-- RM&R and submitted to service providers for
+                consideration-->
+            </th>
+            <th>
+                <button type="submit">Continue</button>
+            </th>
+        </tr>
+    </table>
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
 
@@ -81,7 +105,7 @@
                             document.getElementById("location").innerText = JSON.stringify(location, null, 4);
                         },
                         function(error) {
-                            alert("Issue Fetching Organization");
+                            alert("Issue Fetching Location");
                             document.getElementById("location").innerText = error.stack;
                         }
                     );
