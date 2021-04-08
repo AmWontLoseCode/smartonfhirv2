@@ -76,8 +76,8 @@
 
                     // Render the current documentReference (or any error)
                     .then(
-                        function(orgs) {
-                            document.getElementById("documentReference").innerText = JSON.stringify(orgs, null, 4);
+                        function(documentReference) {
+                            document.getElementById("documentReference").innerText = JSON.stringify(documentReference, null, 4);
                         },
                         function(error) {
                             document.getElementById("documentReference").innerText = error.stack;
