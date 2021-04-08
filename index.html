@@ -37,11 +37,8 @@
                 );
 
                 // Get organizations for the selected patient
-               /** client.request("/Patient/" + client.patient.id, {
-                    resolveReferences: [ "medicationReference" ],
-                    graph: true
-                })**/
-                client.patient.request("Organization")
+               client.request("/Patient/" + client.patient.id, {
+                })
 
                 // Reject if no organizations are found
                 .then(function(data) {
