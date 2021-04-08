@@ -5,7 +5,7 @@
         <title>Strata Smart on fhir Application</title>
         <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
         <style>
-            #patient, #orgs, #location {
+            #patient, #orgs, #location, #practitioner {
                 font-family: Monaco, monospace;
                 white-space: pre;
                 font-size: 13px;
@@ -23,6 +23,8 @@
         <div id="orgs">Loading...</div>
         <h4>Location</h4>
         <div id="location">Loading...</div>
+        <h4>Practitioners</h4>
+        <div id="practitioner">Loading...</div>
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
 
@@ -77,6 +79,32 @@
                         },
                         function(error) {
                             document.getElementById("location").innerText = error.stack;
+                        }
+                    );
+
+
+                // Get Practitioners for the selected patient
+                client.request("/Patient?patient=" + client.patient.id, {
+                    resolveReferences: [ "generalPractitioner" ],
+                    graph: true
+                })
+
+                // Reject if no Practitioners are found
+                    .then(function(data) {
+                        if (!data.entry || !data.entry.length) {
+                            throw new Error("No practitioners for the selected patient");
+                        }
+                        return data.entry;
+                    })
+
+
+                    // Render the current patient's medications (or any error)
+                    .then(
+                        function(practitioner) {
+                            document.getElementById("practitioner").innerText = JSON.stringify(practitioner, null, 4);
+                        },
+                        function(error) {
+                            document.getElementById("practitioner").innerText = error.stack;
                         }
                     );
 
