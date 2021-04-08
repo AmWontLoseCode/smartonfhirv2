@@ -2,10 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Example SMART App</title>
+        <title>Strata Smart on fhir Application</title>
         <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
         <style>
-            #patient, #orgs {
+            #patient, #orgs, #documentReference {
                 font-family: Monaco, monospace;
                 white-space: pre;
                 font-size: 13px;
@@ -21,9 +21,11 @@
         <br/>
         <h4>Organizations</h4>
         <div id="orgs">Loading...</div>
+        <h4>DocumentReference</h4>
+        <div id="documentReference">Loading...</div>
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
-                
+
                 // Render the current patient (or any error)
                 client.patient.read().then(
                     function(pt) {
@@ -33,13 +35,13 @@
                         document.getElementById("patient").innerText = error.stack;
                     }
                 );
-                
+
                 // Get organizations for the selected patient
-                client.request("/Organization?patient=" + client.patient.id, {
+                client.request("/Organization?id=" + "dc011700-6814-443e-8e18-c2d6b5fd4893", { // client.patient.id,
                     resolveReferences: [ "medicationReference" ],
                     graph: true
                 })
-                
+
                 // Reject if no organizations are found
                 .then(function(data) {
                     if (!data.entry || !data.entry.length) {
@@ -47,7 +49,6 @@
                     }
                     return data.entry;
                 })
-                
 
                 // Render the current organizations (or any error)
                 .then(
@@ -58,6 +59,30 @@
                         document.getElementById("orgs").innerText = error.stack;
                     }
                 );
+
+                // Get DocumentReferences for the selected patient
+                client.request("/DocumentReference?patient=" + client.patient.id, { // client.patient.id,
+                    resolveReferences: [ "medicationReference" ],
+                    graph: true
+                })
+
+                // Reject if no documentReference are found
+                    .then(function(data) {
+                        if (!data.entry || !data.entry.length) {
+                            throw new Error("No organization found for the selected patient");
+                        }
+                        return data.entry;
+                    })
+
+                    // Render the current documentReference (or any error)
+                    .then(
+                        function(orgs) {
+                            document.getElementById("documentReference").innerText = JSON.stringify(orgs, null, 4);
+                        },
+                        function(error) {
+                            document.getElementById("documentReference").innerText = error.stack;
+                        }
+                    );
 
             }).catch(console.error);
         </script>
