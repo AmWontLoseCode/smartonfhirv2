@@ -129,7 +129,7 @@
                     // Get Practitioners for the selected patient
                     .then(
                         function(practitioner) {
-                            document.getElementById("practitioner").innerText = JSON.stringify(practitioner, null, 4);
+                            document.getElementById("practitioner").innerText = JSON.stringify(practitioner[0].resource.generalPractitioner, null, 4);
                         },
                         function(error) {
                             document.getElementById("practitioner").innerText = error.stack;
