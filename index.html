@@ -39,7 +39,7 @@
                 );
 
                 // Get organizations for the selected patient
-               client.request("/Organization?_id=dc011700-6814-443e-8e18-c2d6b5fd4893", { //+ client.patient.id
+               client.request("/Organization/dc011700-6814-443e-8e18-c2d6b5fd4893", { //+ client.patient.id
                 })
 
                 // Reject if no organizations are found
@@ -61,7 +61,7 @@
                 );
 
                 // Get location for the selected patient
-                client.request("/Location?organization=dc011700-6814-443e-8e18-c2d6b5fd4893", { // client.patient.id,
+                client.request("/Location/dc011700-6814-443e-8e18-c2d6b5fd4893", { // client.patient.id,
                 })
 
                 // Reject if no location are found
@@ -98,7 +98,7 @@
                     })
 
 
-                    // Render the current patient's medications (or any error)
+                    // Get Practitioners for the selected patient
                     .then(
                         function(practitioner) {
                             document.getElementById("practitioner").innerText = JSON.stringify(practitioner, null, 4);
