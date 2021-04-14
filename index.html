@@ -19,14 +19,17 @@
     <img src="images/strata-logo-150ppi.png">
     <h2>Strata Health Smart on FHIR APP V1.</h2>
     <h4>Current Patient</h4>
-        <div id="patient">Loading...</div>
-        <br/>
-        <h4>Organizations</h4>
-        <div id="orgs">Loading...</div>
-        <h4>Location</h4>
-        <div id="location">Loading...</div>
-        <h4>Practitioners</h4>
-        <div id="practitioner">Loading...</div>
+    <div id="patient">Loading...</div>
+=    <h4>Get Encounter By launchContext</h4>
+    <div id="encounterLaunchContext">Loading...</div>
+    <h4>Get Encounter By Patient Id</h4>
+    <div id="encounterByPatientId">Loading...</div>
+    <h4>Organization</h4>
+    <div id="orgs">Loading...</div>
+    <h4>Location</h4>
+    <div id="location">Loading...</div>
+    <h4>Practitioners</h4>
+    <div id="practitioner">Loading...</div>
     <table>
         <tr>
             <th>OPTION 1: Automatic user login (SSO) <!--in Pathways from the external Cerner HIS.--></th>
@@ -53,7 +56,7 @@
             FHIR.oauth2.ready().then(function(client) {
 
                 // Render the current patient (or any error)
-                client.encounter.read().then(
+                client.patient.read().then(
                     function(pt) {
                         document.getElementById("patient").innerText = JSON.stringify(pt, null, 4);
                     },
@@ -62,8 +65,18 @@
                     }
                 );
 
-                // Get organizations for the selected patient
-                client.request("/Encounter?subject=Patient/" + client.patient.id, { //+ client.patient.id
+                // Render the current encounter (or any error)
+                client.encounter.read().then(
+                    function(enc) {
+                        document.getElementById("encounterLaunchContext").innerText = JSON.stringify(enc, null, 4);
+                    },
+                    function(error) {
+                        document.getElementById("encounterLaunchContext").innerText = error.stack;
+                    }
+                );
+
+                // Get Encounter for the selected patient
+                client.request("/Encounter?subject=Patient/" + client.patient.id, {
                 })
 
                 // Reject if no organizations are found
@@ -76,13 +89,13 @@
 
                 // Render the current encounter (or any error)
                 .then(
-                    function(orgs) {
+                    function(encByPatientId) {
                         console.log(client.getAllResponseHeaders());
-                        document.getElementById("orgs").innerText = JSON.stringify(orgs, null, 4);
+                        document.getElementById("encounterByPatientId").innerText = JSON.stringify(encByPatientId, null, 4);
                     },
                     function(error) {
-                        alert("Issue Fetching Organization");
-                        document.getElementById("orgs").innerText = error.stack;
+                        alert("Issue Fetching Encounter by PatientId");
+                        document.getElementById("encounterByPatientId").innerText = error.stack;
                     }
                 );
 
