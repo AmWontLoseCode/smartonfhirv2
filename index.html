@@ -63,7 +63,8 @@
                 );
 
                 // Get organizations for the selected patient
-               client.request("/Organization/dc011700-6814-443e-8e18-c2d6b5fd4893", { //+ client.patient.id
+               //client.request("/Organization/dc011700-6814-443e-8e18-c2d6b5fd4893", { //+ client.patient.id
+                client.request("/Encounter?patient=" + client.patient.id, { //+ client.patient.id
                 })
 
                 // Reject if no organizations are found
