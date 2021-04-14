@@ -76,7 +76,7 @@
                 );
 
                 // Get Encounter for the selected patient
-                client.request("/Encounter/dc011700-6814-443e-8e18-c2d6b5fd4893", { //+ client.patient.id,
+                client.request("/Encounter?subject=Patient/2cda5aad-e409-4070-9a15-e1c35c46ed5a", { //+ client.patient.id,
                 })
 
                 .then(function(data) {
