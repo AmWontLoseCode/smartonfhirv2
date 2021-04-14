@@ -90,7 +90,6 @@
                 // Render the current encounter (or any error)
                 .then(
                     function(encounterByPatientId) {
-                        console.log(client.getAllResponseHeaders());
                         document.getElementById("encounterByPatientId").innerText = JSON.stringify(encounterByPatientId, null, 4);
                     },
                     function(error) {
@@ -114,7 +113,6 @@
                     // Render the current location (or any error)
                     .then(
                         function(location) {
-                            console.log(client.getAllResponseHeaders());
                             document.getElementById("location").innerText = JSON.stringify(location, null, 4);
                         },
                         function(error) {
