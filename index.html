@@ -67,8 +67,8 @@
 
                 // Render the current encounter (or any error)
                 client.encounter.read().then(
-                    function(enc) {
-                        document.getElementById("encounterLaunchContext").innerText = JSON.stringify(enc, null, 4);
+                    function(encounterLaunchContext) {
+                        document.getElementById("encounterLaunchContext").innerText = JSON.stringify(encounterLaunchContext, null, 4);
                     },
                     function(error) {
                         document.getElementById("encounterLaunchContext").innerText = error.stack;
@@ -89,9 +89,9 @@
 
                 // Render the current encounter (or any error)
                 .then(
-                    function(encByPatientId) {
+                    function(encounterByPatientId) {
                         console.log(client.getAllResponseHeaders());
-                        document.getElementById("encounterByPatientId").innerText = JSON.stringify(encByPatientId, null, 4);
+                        document.getElementById("encounterByPatientId").innerText = JSON.stringify(encounterByPatientId, null, 4);
                     },
                     function(error) {
                         alert("Issue Fetching Encounter by PatientId");
