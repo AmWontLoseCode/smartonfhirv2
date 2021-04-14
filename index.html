@@ -63,7 +63,7 @@
                 );
 
                 // Get organizations for the selected patient
-                client.request("/Encounter", { //+ client.patient.id
+                client.request("/Encounter?subject=" + client.patient.id, { //+ client.patient.id
                 })
 
                 // Reject if no organizations are found
