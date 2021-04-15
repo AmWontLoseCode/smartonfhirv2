@@ -150,20 +150,18 @@
     function returnClient() {
         document.getElementById('headers').innerText = JSON.stringify(clientGlobalScope, null, 4);
         var xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-            if (this.readyState != 4) return;
-
-            if (this.status == 200) {
-                var data = JSON.parse(this.responseText);
-
-                // we get the returned data
-            }
-
-            // end of state change: it can be after some time (async)
-        };
         xhr.open('POST', 'https://pathways.stratahealth.com:8885/inboundServiceRequest', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState != 4) {
+                alert(this.responseText);
+            }
+            if(this.readyState == 4 && this.status == 200) {
+                alert(this.responseText);
+            }
+            // end of state change: it can be after some time (async)
+        };
         xhr.send(JSON.stringify({
             value: clientGlobalScope
         }));
