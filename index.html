@@ -5,7 +5,7 @@
         <title>Strata Smart on fhir Application</title>
         <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
         <style>
-            #patient, #orgs, #location, #practitioner, #encounterByPatientId, #encounterLaunchContext{
+            #patient, #organization, #location, #practitioner, #encounterByPatientId, #encounterLaunchContext{
                 font-family: Monaco, monospace;
                 white-space: pre;
                 font-size: 13px;
@@ -24,8 +24,8 @@
     <div id="encounterLaunchContext">Loading...</div>
     <h4>Get Encounter By Patient Id</h4>
     <div id="encounterByPatientId">Loading...</div>
-    <h4>Organization</h4>
-    <div id="orgs">Loading...</div>
+    <h4>Organization By Encounter Launch Context</h4>
+    <div id="organization">Loading...</div>
     <h4>Location</h4>
     <div id="location">Loading...</div>
     <h4>Practitioners</h4>
@@ -54,7 +54,6 @@
     </table>
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
-
                 // Render the current patient (or any error)
                 client.patient.read().then(
                     function(pt) {
@@ -76,7 +75,7 @@
                 );
 
                 // Get Encounter for the selected patient
-                client.request("/Encounter?subject=Patient/2cda5aad-e409-4070-9a15-e1c35c46ed5a", { //+ client.patient.id,
+                client.request("/Encounter?subject=Patient/" + client.patient.id, { //+ client.patient.id,
                 })
 
                 .then(function(data) {
@@ -97,11 +96,13 @@
                     }
                 );
 
-                // Get location for the selected patient
-                client.request("/Location/dc011700-6814-443e-8e18-c2d6b5fd4893", { // client.patient.id,
+                // Get Organization for the selected patient
+                client.request("/Encounter?_id=" + client.encounter.id, { // client.patient.id,
+                    resolveReferences: [ "serviceProvider" ],
+                    graph: true
                 })
 
-                // Reject if no location are found
+                // Reject if no organization are found
                     .then(function(data) {
                         if (!data.entry || !data.entry.length) {
                             throw new Error("No location found for the selected patient");
@@ -111,12 +112,12 @@
 
                     // Render the current location (or any error)
                     .then(
-                        function(location) {
-                            document.getElementById("location").innerText = JSON.stringify(location, null, 4);
+                        function(organization) {
+                            document.getElementById("organization").innerText = JSON.stringify(organization, null, 4);
                         },
                         function(error) {
-                            alert("Issue Fetching Location");
-                            document.getElementById("location").innerText = error.stack;
+                            alert("Issue Fetching Organization");
+                            document.getElementById("organization").innerText = error.stack;
                         }
                     );
 
