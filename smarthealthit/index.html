@@ -42,7 +42,7 @@
 
 </table>
 <script type="text/javascript">
-    var client = {};
+    var clientGlobalScope = {};
     FHIR.oauth2.ready().then(function (client) {
         // Render the current patient (or any error)
         client.patient.read().then(
@@ -143,12 +143,12 @@
                     document.getElementById('practitioner').innerText = error.stack;
                 }
             );
-        client = client;
+        clientGlobalScope.client = client;
 
     }).catch(console.error);
 
     function returnClient(){
-        document.getElementById('headers').innerText = JSON.stringify(client, null, 4);
+        document.getElementById('headers').innerText = JSON.stringify(clientGlobalScope, null, 4);
     }
 </script>
 </body>
