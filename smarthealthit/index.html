@@ -144,8 +144,8 @@
                     .then(
                         function(practitioner) {
                             document.getElementById("practitioner").innerText = JSON.stringify(practitioner, null, 4);
-                            var myHeader = practitioner.getAllResponseHeaders();
-                            document.getElementById("headers").innerText = JSON.stringify(myHeader, null, 4);
+                            /**var myHeader = practitioner.getH;
+                            document.getElementById("headers").innerText = JSON.stringify(myHeader, null, 4);**/
                         },
                         function(error) {
                             document.getElementById("practitioner").innerText = error.stack;
