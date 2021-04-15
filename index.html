@@ -113,7 +113,7 @@
                     // Render the current location (or any error)
                     .then(
                         function(organization) {
-                            document.getElementById("organization").innerText = JSON.stringify(organization, null, 4);
+                            document.getElementById("organization").innerText = JSON.stringify(organization[0].resource.serviceProvider, null, 4);
                         },
                         function(error) {
                             alert("Issue Fetching Organization");
