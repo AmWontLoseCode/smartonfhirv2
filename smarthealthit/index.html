@@ -59,6 +59,7 @@
                 // Render the current patient (or any error)
                 client.patient.read().then(
                     function(pt) {
+                        console.log(pt);
                         document.getElementById("patient").innerText = JSON.stringify(pt, null, 4);
                     },
                     function(error) {
