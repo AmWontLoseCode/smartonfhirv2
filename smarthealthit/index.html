@@ -124,7 +124,7 @@
 
                 // Get Practitioners for the selected patient
                 client.request("/Patient?_id=" + client.patient.id, {
-                    resolveReferences: [ "generalPractitioner" ],
+                    resolveReferences: [ "participant" ],
                     graph: true
                 })
 
