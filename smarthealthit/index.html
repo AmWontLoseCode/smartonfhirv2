@@ -61,6 +61,7 @@
                     function(pt) {
                         console.log(pt);
                         document.getElementById("patient").innerText = JSON.stringify(pt, null, 4);
+                        client.addObject(pt);
                         document.getElementById("headers").innerText = JSON.stringify(client, null, 4);
                     },
                     function(error) {
