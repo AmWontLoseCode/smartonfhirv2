@@ -34,34 +34,22 @@
 <div id="headers">Loading...</div>
 <table>
     <tr>
-        <th>OPTION 1: Automatic user login (SSO) <!--in Pathways from the external Cerner HIS.--></th>
+        <th>SEND TO RHAPSODY <!--in Pathways from the external Cerner HIS.--></th>
         <th>
-            <button type="submit">Continue</button>
+            <button onclick="returnClient()">Send To Rhapsody</button>
         </th>
     </tr>
-    <tr>
-        <th>OPTION 2: Demographic information is automatically copied to Pathways.</th>
-        <th>
-            <button type="submit">Continue</button>
-        </th>
-    </tr>
-    <tr>
-        <th>OPTION 3: Complete referral data is automatically copied to <!-- RM&R and submitted to service providers for
-                consideration-->
-        </th>
-        <th>
-            <button type="submit">Continue</button>
-        </th>
-    </tr>
+
 </table>
 <script type="text/javascript">
+    var client = {};
     FHIR.oauth2.ready().then(function (client) {
         // Render the current patient (or any error)
         client.patient.read().then(
             function (pt) {
                 console.log(pt);
                 document.getElementById('patient').innerText = JSON.stringify(pt, null, 4);
-                client.patient = pt;
+                client.patientResource = pt;
             },
             function (error) {
                 document.getElementById('patient').innerText = error.stack;
@@ -72,7 +60,7 @@
         client.encounter.read().then(
             function (encounterLaunchContext) {
                 document.getElementById('encounterLaunchContext').innerText = JSON.stringify(encounterLaunchContext, null, 4);
-                client.encounterLaunchContext = encounterLaunchContext;
+                client.encounterLaunchContextResource = encounterLaunchContext;
             },
             function (error) {
                 document.getElementById('encounterLaunchContext').innerText = error.stack;
@@ -94,7 +82,7 @@
             .then(
                 function (encounterByPatientId) {
                     document.getElementById('encounterByPatientId').innerText = JSON.stringify(encounterByPatientId, null, 4);
-                    client.encounterByPatientId = encounterByPatientId;
+                    client.encounterByPatientIdResource = encounterByPatientId;
                 },
                 function (error) {
                     alert('Issue Fetching Encounter by PatientId');
@@ -120,7 +108,7 @@
             .then(
                 function (organization) {
                     document.getElementById('organization').innerText = JSON.stringify(organization[0].resource.serviceProvider, null, 4);
-                    client.organization = organization;
+                    client.organizationResource = organization;
                 },
                 function (error) {
                     alert('Issue Fetching Organization');
@@ -155,8 +143,13 @@
                     document.getElementById('practitioner').innerText = error.stack;
                 }
             );
+        client = client;
 
     }).catch(console.error);
+
+    function returnClient(){
+        document.getElementById('headers').innerText = JSON.stringify(client, null, 4);
+    }
 </script>
 </body>
 </html>
