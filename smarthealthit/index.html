@@ -13,25 +13,42 @@
             overflow: scroll;
             border: 1px solid #CCC;
         }
+
+        body {
+            padding: 20px;
+            font: 1em Helvetica Neue, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        p {
+            margin: 0 0 1em 0;
+        }
+
+        .container {
+            border: 5px solid rgb(111, 41, 97);
+            border-radius: .5em;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 500px;
+        }
+
+        .item {
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+            background-color: rgba(111, 41, 97, .3);
+            border: 2px solid rgba(111, 41, 97, .5);
+        }
     </style>
 </head>
 <body>
 <img src="images/strata-logo-150ppi.png">
 <h2>Strata Health Smart on FHIR APP V1.</h2>
-<h4>Current Patient</h4>
-<div id="patient">Loading...</div>
-<h4>Get Encounter By launchContext</h4>
-<div id="encounterLaunchContext">Loading...</div>
-<h4>Get Encounter By Patient Id</h4>
-<div id="encounterByPatientId">Loading...</div>
-<h4>Organization By Encounter Launch Context</h4>
-<div id="organization">Loading...</div>
-<h4>Location</h4>
-<div id="location">Loading...</div>
-<h4>Practitioners</h4>
-<div id="practitioner">Loading...</div>
-<h4>Being Send to PathWays</h4>
-<div id="headers">Loading...</div>
 <table>
     <tr>
         <th>
@@ -42,6 +59,26 @@
         </th>
     </tr>
 </table>
+<h4>Current Patient</h4>
+<div id="patient">Loading...</div>
+<div class="container">
+    <h4>Encounter fetch from EHR launch context</h4>
+    <div id="encounterLaunchContext">Loading...</div>
+    <h4>Encounter fetch from Patient FHIR Resource reference</h4>
+    <div id="encounterByPatientId">Loading...</div>
+</div>
+<h4>Organization fetch from EHR launch context</h4>
+<div id="organization">Loading...</div>
+<h4>Location</h4>
+<div id="location">Loading...</div>
+<h4>Practitioners</h4>
+<div id="practitioner">Loading...</div>
+<div class="container">
+    <h4>Referral Submit Payload</h4>
+    <div class="item">Auth</div>
+    <div class="item">Referral</div>
+    <div id="headers">Loading...</div>
+</div>
 <script type="text/javascript">
     var clientGlobalScope = {};
     FHIR.oauth2.ready().then(function (client) {
@@ -158,7 +195,7 @@
             if (this.readyState != 4) {
                 alert(this.responseText);
             }
-            if(this.readyState == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200) {
                 alert(this.responseText);
             }
             // end of state change: it can be after some time (async)
