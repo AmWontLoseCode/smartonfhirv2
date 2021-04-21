@@ -5,7 +5,7 @@
     <title>SHS Referral Submit App</title>
     <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
     <style>
-        #patient, #organization, #location, #practitioner, #encounterByPatientId, #encounterLaunchContext, #observation, #headers {
+        #patient, #organization, #location, #practitioner, #encounterByPatientId, #encounterLaunchContext, #observation, #documentReference, #appointment, #allergyIntolerance, #headers {
             font-family: Monaco, monospace;
             white-space: pre;
             font-size: 13px;
@@ -48,7 +48,7 @@
 </head>
 <body>
 <img src="images/shs_logo2.png" height="128" width="170"/>
-<h2>Strata Health Smart on FHIR APP V1.</h2>
+<h2>SHS Referral Submit App</h2>
 <table>
     <tr>
         <th>
@@ -75,6 +75,12 @@
 <div id="practitioner">Loading...</div>
 <h4>Observations</h4>
 <div id="observation">Loading...</div>
+<h4>Appointments</h4>
+<div id="appointment">Loading...</div>
+<h4>Allergy Intolerances</h4>
+<div id="allergyIntolerance">Loading...</div>
+<h4>Document Reference </h4>
+<div id="documentReference">Loading...</div>
 <div class="container">
     <h4>Referral Submit Payload</h4>
     <div class="item">Auth</div>
@@ -150,6 +156,72 @@
                 function (error) {
                     alert('Issue Fetching observation by PatientId');
                     document.getElementById('observation').innerText = error.stack;
+                }
+            );
+
+        client.request('/Appointment?subject=Patient/' + client.patient.id, { //+ client.patient.id,
+        })
+
+            .then(function (data) {
+                if (!data.entry || !data.entry.length) {
+                    throw new Error('No appointments found for the selected patient');
+                }
+                return data.entry;
+            })
+
+            // Render the current appointment (or any error)
+            .then(
+                function (appointment) {
+                    document.getElementById('appointment').innerText = JSON.stringify(appointment, null, 4);
+                    client.appointment = appointment;
+                },
+                function (error) {
+                    alert('Issue Fetching appointment by PatientId');
+                    document.getElementById('appointment').innerText = error.stack;
+                }
+            );
+
+        client.request('/AllergyIntolerance?subject=Patient/' + client.patient.id, { //+ client.patient.id,
+        })
+
+            .then(function (data) {
+                if (!data.entry || !data.entry.length) {
+                    throw new Error('No Allergy intolerances found for the selected patient');
+                }
+                return data.entry;
+            })
+
+            // Render the current allergy intolerance (or any error)
+            .then(
+                function (allergyIntolerance) {
+                    document.getElementById('allergyIntolerance').innerText = JSON.stringify(allergyIntolerance, null, 4);
+                    client.allergyIntolerance = allergyIntolerance;
+                },
+                function (error) {
+                    alert('Issue Fetching allergyIntolerance by PatientId');
+                    document.getElementById('allergyIntolerance').innerText = error.stack;
+                }
+            );
+
+        client.request('/DocumentReference?subject=Patient/' + client.patient.id, { //+ client.patient.id,
+        })
+
+            .then(function (data) {
+                if (!data.entry || !data.entry.length) {
+                    throw new Error('No DocumentReference found for the selected patient');
+                }
+                return data.entry;
+            })
+
+            // Render the current allergy intolerance (or any error)
+            .then(
+                function (documentReference) {
+                    document.getElementById('documentReference').innerText = JSON.stringify(documentReference, null, 4);
+                    client.documentReference = documentReference;
+                },
+                function (error) {
+                    alert('Issue Fetching documentReference by PatientId');
+                    document.getElementById('documentReference').innerText = error.stack;
                 }
             );
 
