@@ -243,7 +243,7 @@
             .then(
                 function (encounter) {
                     document.getElementById('organization').innerText = JSON.stringify(encounter[0].resource.serviceProvider, null, 4);
-                    client.organizationResource = organization;
+                    client.organizationResource = encounter[0].resource.serviceProvider;
                 },
                 function (error) {
                     alert('Issue Fetching Organization');
@@ -269,7 +269,7 @@
             .then(
                 function (encounter) {
                     document.getElementById('location').innerText = JSON.stringify(encounter[0].resource.location, null, 4);
-                    client.locationResource = location;
+                    client.locationResource = encounter[0].resource.location;
                 },
                 function (error) {
                     alert('Issue Fetching Location');
@@ -298,7 +298,7 @@
             .then(
                 function (practitioner) {
                     document.getElementById('practitioner').innerText = JSON.stringify(practitioner, null, 4);
-                    //document.getElementById('headers').innerText = JSON.stringify(client, null, 4);
+                    client.practitionerResource = practitioner
                 },
                 function (error) {
                     document.getElementById('practitioner').innerText = error.stack;
