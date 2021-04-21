@@ -134,7 +134,33 @@
             graph: true
         })
 
-        // Reject if no organization are found
+        // Reject if no organization is found
+            .then(function (data) {
+                if (!data.entry || !data.entry.length) {
+                    throw new Error('No organization found for the selected patient');
+                }
+                return data.entry;
+            })
+
+            // Render the current location (or any error)
+            .then(
+                function (encounter) {
+                    document.getElementById('organization').innerText = JSON.stringify(encounter[0].resource.serviceProvider, null, 4);
+                    client.organizationResource = organization;
+                },
+                function (error) {
+                    alert('Issue Fetching Organization');
+                    document.getElementById('organization').innerText = error.stack;
+                }
+            );
+
+        // Get Location for the selected patient
+        client.request('/Encounter?_id=' + client.encounter.id, { // client.patient.id,
+            resolveReferences: ['location'],
+            graph: true
+        })
+
+        // Reject if no location is found
             .then(function (data) {
                 if (!data.entry || !data.entry.length) {
                     throw new Error('No location found for the selected patient');
@@ -144,13 +170,13 @@
 
             // Render the current location (or any error)
             .then(
-                function (organization) {
-                    document.getElementById('organization').innerText = JSON.stringify(organization[0].resource.serviceProvider, null, 4);
-                    client.organizationResource = organization;
+                function (encounter) {
+                    document.getElementById('location').innerText = JSON.stringify(encounter[0].resource.location, null, 4);
+                    client.locationResource = location;
                 },
                 function (error) {
-                    alert('Issue Fetching Organization');
-                    document.getElementById('organization').innerText = error.stack;
+                    alert('Issue Fetching Location');
+                    document.getElementById('location').innerText = error.stack;
                 }
             );
 
