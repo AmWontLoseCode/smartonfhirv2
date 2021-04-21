@@ -159,7 +159,7 @@
                 }
             );
 
-        client.request('/Appointment?subject=Patient/' + client.patient.id, { //+ client.patient.id,
+        client.request('/Appointment?patient=' + client.patient.id, { //+ client.patient.id,
         })
 
             .then(function (data) {
@@ -181,7 +181,7 @@
                 }
             );
 
-        client.request('/AllergyIntolerance?subject=Patient/' + client.patient.id, { //+ client.patient.id,
+        client.request('/AllergyIntolerance?patient=' + client.patient.id, { //+ client.patient.id,
         })
 
             .then(function (data) {
@@ -203,7 +203,7 @@
                 }
             );
 
-        client.request('/DocumentReference?subject=Patient/' + client.patient.id, { //+ client.patient.id,
+        client.request('/DocumentReference?patient=' + client.patient.id, { //+ client.patient.id,
         })
 
             .then(function (data) {
